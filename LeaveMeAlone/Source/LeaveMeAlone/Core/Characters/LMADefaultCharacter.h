@@ -73,8 +73,8 @@ public:
 
 	void OnHealthChanged(float NewHealth);
 
-	//UFUNCTION()
-	//ULMAHealthComponent* GetHealthComponent() const { return HealthComponent; }
+	UFUNCTION()
+	ULMAHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
 
 protected:

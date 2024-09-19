@@ -58,19 +58,18 @@ bool ULMAHealthComponent::IsDead() const
     return Health <= 0.0f;    
 }
 
-//bool ULMAHealthComponent::IsHealthFull() const
-//{
-//    return FMath::IsNearlyEqual(Health, MaxHealth);
-//}
+bool ULMAHealthComponent::IsHealthFull() const
+{
+    return FMath::IsNearlyEqual(Health, MaxHealth);
+}
 
-//bool ULMAHealthComponent::AddHealth(float NewHealth)
-//{
-//    if (IsDead() || IsHealthFull())
-//		return false;
-//    
-//	Health = FMath::Clamp(Health + NewHealth, 0.0f, MaxHealth);
-//    OnHealthChanged.Broadcast(Health);
-//    return true;
-//}
+bool ULMAHealthComponent::AddHealth(float NewHealth)
+{
+    if (IsDead() || IsHealthFull())
+	return false;
+    Health = FMath::Clamp(Health + NewHealth, 0.0f, MaxHealth);
+    OnHealthChanged.Broadcast(Health);
+    return true;
+}
 
 
