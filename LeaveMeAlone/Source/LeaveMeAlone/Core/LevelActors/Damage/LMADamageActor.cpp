@@ -1,5 +1,6 @@
 // LeaveMeAlone - all rights reserved
 
+#include "LMADamageActor.h"
 #include "Kismet/GameplayStatics.h"
 #include "Core/LevelActors/Damage/LMADamageActor.h"
 

@@ -40,8 +40,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	bool IsDead() const;
 
-	bool AddHealth(float NewHealth); // прибавляет количество жизней и возвращает true, если здоровье было успешно прибавлено.
-	bool IsHealthFull() const; // вспомогательная функция, которая проверит,    полное ли  здоровье в настоящее время.
+	//bool AddHealth(float NewHealth); // прибавляет количество жизней и возвращает true, если здоровье было успешно прибавлено.
+	//bool IsHealthFull() const; // вспомогательная функция, которая проверит,    полное ли  здоровье в настоящее время.
 
 protected:
 	// Called when the game starts
