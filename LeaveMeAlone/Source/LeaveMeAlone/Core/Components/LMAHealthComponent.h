@@ -37,6 +37,8 @@ public:
 		return Health; 
 	}
 
+	
+
 	UFUNCTION(BlueprintCallable)
 	bool IsDead() const;
 

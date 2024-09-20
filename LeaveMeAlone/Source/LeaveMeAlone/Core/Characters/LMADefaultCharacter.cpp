@@ -67,9 +67,24 @@ void ALMADefaultCharacter::MoveForward(float Value)
 {
 	AddMovementInput(GetActorForwardVector(), Value);
 }
+
 void ALMADefaultCharacter::MoveRight(float Value)
 {
 	AddMovementInput(GetActorRightVector(), Value);
+}
+
+void ALMADefaultCharacter::StartSprint()
+{
+    IsSprinting = true;
+    GetCharacterMovement()->MaxWalkSpeed = SprintingSpeed;
+
+	
+}
+
+void ALMADefaultCharacter::StopSprint()
+{
+    IsSprinting = false;
+    GetCharacterMovement()->MaxWalkSpeed = WalkingSpeed;
 }
 
 void ALMADefaultCharacter::ZoomCamera(float Value)
@@ -125,6 +140,11 @@ void ALMADefaultCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 
 	PlayerInputComponent->BindAxis("MoveForward", this, &ALMADefaultCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &ALMADefaultCharacter::MoveRight);
+
+	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ALMADefaultCharacter::StartSprint);
+	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ALMADefaultCharacter::StopSprint);
+
+	
 
 	PlayerInputComponent->BindAxis("ZoomCamera", this, &ALMADefaultCharacter::ZoomCamera);
 }

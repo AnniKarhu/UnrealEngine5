@@ -56,6 +56,15 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Animation")
 	UAnimMontage* DeathMontage;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprinting")
+	bool IsSprinting = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprinting")
+	float SprintingSpeed = 1000.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprinting")
+	float WalkingSpeed = 300.f;
+
 private:
 
 	float YRotation = -75.0f; //поворот камеры по оси Y
@@ -76,6 +85,8 @@ public:
 	UFUNCTION()
 	ULMAHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
+	UFUNCTION(BlueprintCallable)
+	bool GetIsSprinting() const { return IsSprinting; }
 
 protected:
 	// Called when the game starts or when spawned
@@ -83,6 +94,9 @@ protected:
 
 	void MoveForward(float Value);
 	void MoveRight(float Value);
+	
+	void StartSprint();
+	void StopSprint();
 
 	void ZoomCamera(float Value);
 
