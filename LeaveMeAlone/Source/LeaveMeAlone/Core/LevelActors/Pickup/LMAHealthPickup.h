@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Components/SphereComponent.h"
+#include "Components/BoxComponent.h"
 #include "Core/Characters/LMADefaultCharacter.h"
 #include "LMAHealthPickup.generated.h"
 
@@ -17,7 +18,8 @@ class LEAVEMEALONE_API ALMAHealthPickup : public AActor
 protected:
 
 	UPROPERTY(VisibleAnywhere, Category = "Pickup")
-	USphereComponent* SphereComponent;
+	//USphereComponent* SphereComponent;
+	UBoxComponent* BoxComponent;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pickup")
 	float RespawnTime = 5.0f; //время 	респауна актора
@@ -31,15 +33,12 @@ public:
 	ALMAHealthPickup();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
 	virtual void NotifyActorBeginOverlap(AActor* OtherActor) override; //переопределяем метод базового класса Актора, он реагирует на пересечение сетки коллизии с другими Акторами
 	
 
 public:	
 	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	//virtual void Tick(float DeltaTime) override;
 
 private:
 	bool GivePickup(ALMADefaultCharacter* Character); //отвечает за то, взят ли  пикап

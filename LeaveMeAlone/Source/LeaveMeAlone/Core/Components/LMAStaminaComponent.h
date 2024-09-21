@@ -33,7 +33,7 @@ public:
 	// Sets default values for this component's properties
 	ULMAStaminaComponent();
 
-	FOnStaminaChanged OnStaminahChanged;
+	FOnStaminaChanged OnStaminaChanged;
 
 	UFUNCTION(BlueprintCallable)
 	float GetStamina() const { return Stamina; }
@@ -44,9 +44,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-    bool EnoughStaminaForSprint() { return (Stamina >= MinStamina); }
+	
+    
+	bool EnoughStaminaForSprint() { return (Stamina >= MinStamina); }
    
 	void DecreaseStamina(float DecValue);
 	void IncreaseStamina(float IncValue);

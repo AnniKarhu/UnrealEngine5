@@ -18,15 +18,8 @@ ALMADamageActor::ALMADamageActor()
 	StaticMesh->SetupAttachment(SphereComponent);
 	StaticMesh->SetRelativeScale3D(FVector(2.0f, 2.0f, 0.05f));
 	StaticMesh->SetRelativeLocation(FVector(0.0f, 0.0f, -4.0f));
-
 }
 
-// Called when the game starts or when spawned
-void ALMADamageActor::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
 
 // Called every frame
 void ALMADamageActor::Tick(float DeltaTime)

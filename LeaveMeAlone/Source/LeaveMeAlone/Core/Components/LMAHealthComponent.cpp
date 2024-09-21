@@ -38,8 +38,7 @@ void ULMAHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, co
 {
     //текущее здоровье персонажа будет уменьшаться на то  количество урона, которое пришло из класса A_RadialFire
 	
-	//Health -= Damage;
-    if (IsDead())
+	if (IsDead())
     {
 		return;
     }
@@ -55,7 +54,7 @@ void ULMAHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, co
 
 bool ULMAHealthComponent::IsDead() const
 {
-    return Health <= 0.0f;    
+    return Health <= 0.0f;    	
 }
 
 bool ULMAHealthComponent::IsHealthFull() const

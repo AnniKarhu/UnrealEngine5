@@ -7,31 +7,18 @@
 ALMAHealthPickup::ALMAHealthPickup()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
-	SphereComponent = CreateDefaultSubobject<USphereComponent>("SphereComponent");
-	SphereComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
-	SetRootComponent(SphereComponent);
-
-}
-
-// Called when the game starts or when spawned
-void ALMAHealthPickup::BeginPlay()
-{
-	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void ALMAHealthPickup::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+	//SphereComponent = CreateDefaultSubobject<USphereComponent>("SphereComponent");
+	BoxComponent = CreateDefaultSubobject<UBoxComponent>("BoxComponent");
+	BoxComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+	SetRootComponent(BoxComponent);
 
 }
 
 void ALMAHealthPickup::PickupWasTaken()
 {
-    SphereComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+    BoxComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
     GetRootComponent()->SetVisibility(false, true);
     FTimerHandle RespawnTimerHandle;
     GetWorldTimerManager().SetTimer(RespawnTimerHandle, this, &ALMAHealthPickup::RespawnPickup, RespawnTime);
@@ -39,7 +26,7 @@ void ALMAHealthPickup::PickupWasTaken()
 
 void ALMAHealthPickup::RespawnPickup()
 {
-    SphereComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
+    BoxComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
     GetRootComponent()->SetVisibility(true, true);
 }
 

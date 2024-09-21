@@ -61,15 +61,21 @@ void ALMADefaultCharacter::BeginPlay()
 	OnHealthChanged(HealthComponent->GetHealth());
 	HealthComponent->OnHealthChanged.AddUObject(this, &ALMADefaultCharacter::OnHealthChanged);
 
-	
+	OnStaminaChanged(StaminaComponent->GetStamina());
+	StaminaComponent->OnStaminaChanged.AddUObject(this, &ALMADefaultCharacter::OnStaminaChanged);	
 	
 }
 
 void ALMADefaultCharacter::MoveForward(float Value) 
 {
 	AddMovementInput(GetActorForwardVector(), Value);
-    if (IsSprinting)
-    {
+
+	//float temp = -1;
+	//temp = FVector::DotProduct(GetVelocity(), GetActorRotation().Vector());
+	//GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("Speed = %f"), temp));
+
+    if ((IsSprinting)   &&(!(FMath::IsNearlyEqual(Value, 0))))
+    {		
 		StaminaComponent->DecreaseStamina(SprintStaminaCost);
 		if (!CanSprint())
 		{
@@ -191,6 +197,11 @@ void ALMADefaultCharacter::OnDeath()
 void ALMADefaultCharacter::OnHealthChanged(float NewHealth)
 {
     GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Red, FString::Printf(TEXT("Health = %f"), NewHealth));
+}
+
+void ALMADefaultCharacter::OnStaminaChanged(float NewStamina) 
+{
+    GEngine->AddOnScreenDebugMessage(-1, 2.0f, FColor::Blue, FString::Printf(TEXT("Stamina = %f"), NewStamina));
 }
 
 void ALMADefaultCharacter::RotationPlayerOnCursor() 

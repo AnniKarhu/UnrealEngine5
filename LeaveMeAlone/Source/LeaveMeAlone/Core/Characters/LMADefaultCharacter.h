@@ -14,6 +14,7 @@ class USpringArmComponent;
 class UDecalComponent;
 class UMaterialInterface;
 class ULMAHealthComponent;
+class ULMStaminaComponent;
 class UAnimMontage;
 
 
@@ -84,9 +85,7 @@ private:
 
 	float YRotation = -75.0f; //поворот камеры по оси Y
 	float ArmLength = 1400.0f; //длина штатива.
-	float FOV = 55.0f; //поле зрения камеры
-
-	
+	float FOV = 55.0f; //поле зрения камеры	
 
 	/*METHODS*/
 
@@ -98,6 +97,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	void OnHealthChanged(float NewHealth);
+	void OnStaminaChanged(float NewStamina);
 
 	UFUNCTION()
 	ULMAHealthComponent* GetHealthComponent() const { return HealthComponent; }	
