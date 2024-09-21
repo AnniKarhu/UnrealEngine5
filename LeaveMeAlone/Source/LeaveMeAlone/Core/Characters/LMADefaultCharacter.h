@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Core/Components/LMAHealthComponent.h"
+#include "Core/Components/LMAStaminaComponent.h"
+
 #include "LMADefaultCharacter.generated.h"
 
 class UCameraComponent;
@@ -53,23 +55,38 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components|Health")
 	ULMAHealthComponent* HealthComponent;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component")
+	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components|Stamina")
+	ULMAStaminaComponent* StaminaComponent;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Animation")
 	UAnimMontage* DeathMontage;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprinting")
-	bool IsSprinting = false;
+	bool TrySprinting = false;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprinting")
-	float SprintingSpeed = 1000.f;
+	float SprintingSpeed = 1000.f; //заменить на BlueprintRead VisibleAnywhere
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprinting")
 	float WalkingSpeed = 300.f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Sprinting")
+	bool IsSprinting = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprinting")
+	float SprintStaminaCost = 10;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sprinting")
+	float StaminaRecoverCost = 2;
 
 private:
 
 	float YRotation = -75.0f; //поворот камеры по оси Y
 	float ArmLength = 1400.0f; //длина штатива.
 	float FOV = 55.0f; //поле зрения камеры
+
+	
 
 	/*METHODS*/
 
@@ -83,10 +100,11 @@ public:
 	void OnHealthChanged(float NewHealth);
 
 	UFUNCTION()
-	ULMAHealthComponent* GetHealthComponent() const { return HealthComponent; }
+	ULMAHealthComponent* GetHealthComponent() const { return HealthComponent; }	
 
-	UFUNCTION(BlueprintCallable)
-	bool GetIsSprinting() const { return IsSprinting; }
+	UFUNCTION()
+	ULMAStaminaComponent* GetStaminaComponent() const { return StaminaComponent; }
+	
 
 protected:
 	// Called when the game starts or when spawned
@@ -104,5 +122,7 @@ private:
 	void OnDeath(); //	функция, которая будет реагировать на сообщение от делегата, о том, что персонаж умер
 
 	void RotationPlayerOnCursor();
+
+	bool CanSprint() const;
 
 };

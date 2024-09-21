@@ -42,7 +42,7 @@ ALMADefaultCharacter::ALMADefaultCharacter()
 	bUseControllerRotationRoll = false;
 
 	HealthComponent = CreateDefaultSubobject<ULMAHealthComponent>("HealthComponent");
-
+	StaminaComponent = CreateDefaultSubobject<ULMAStaminaComponent>("StaminaComponent");
 
 }
 
@@ -60,12 +60,28 @@ void ALMADefaultCharacter::BeginPlay()
 
 	OnHealthChanged(HealthComponent->GetHealth());
 	HealthComponent->OnHealthChanged.AddUObject(this, &ALMADefaultCharacter::OnHealthChanged);
+
+	
 	
 }
 
 void ALMADefaultCharacter::MoveForward(float Value) 
 {
 	AddMovementInput(GetActorForwardVector(), Value);
+    if (IsSprinting)
+    {
+		StaminaComponent->DecreaseStamina(SprintStaminaCost);
+		if (!CanSprint())
+		{
+			StopSprint();
+		}
+    }
+    else
+    {
+		StaminaComponent->IncreaseStamina(StaminaRecoverCost);	
+    }
+    
+	
 }
 
 void ALMADefaultCharacter::MoveRight(float Value)
@@ -74,17 +90,26 @@ void ALMADefaultCharacter::MoveRight(float Value)
 }
 
 void ALMADefaultCharacter::StartSprint()
-{
-    IsSprinting = true;
-    GetCharacterMovement()->MaxWalkSpeed = SprintingSpeed;
+{ 	
+	if (CanSprint())
+	{
+	    IsSprinting = true;
+		GetCharacterMovement()->MaxWalkSpeed = SprintingSpeed;
+	}		
+}
 
-	
+bool ALMADefaultCharacter::CanSprint() const
+{
+    return (StaminaComponent->EnoughStaminaForSprint());
 }
 
 void ALMADefaultCharacter::StopSprint()
 {
     IsSprinting = false;
-    GetCharacterMovement()->MaxWalkSpeed = WalkingSpeed;
+	GetCharacterMovement()->MaxWalkSpeed = WalkingSpeed;
+
+	//запустить таймер, который каждую секунду будет добавлять по 10 тамина и перезапускать сам себя, если стамина меньше максимальной
+	//таймер нужно отключать при начале спринта
 }
 
 void ALMADefaultCharacter::ZoomCamera(float Value)
