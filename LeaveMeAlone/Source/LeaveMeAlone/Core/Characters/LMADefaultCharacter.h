@@ -15,6 +15,7 @@ class UDecalComponent;
 class UMaterialInterface;
 class ULMAHealthComponent;
 class ULMStaminaComponent;
+class ULMAWeaponComponent;
 class UAnimMontage;
 
 
@@ -55,6 +56,9 @@ protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components|Health")
 	ULMAHealthComponent* HealthComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components|Weapon")
+	ULMAWeaponComponent* WeaponComponent;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Component")
 	//UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components|Stamina")

@@ -6,6 +6,7 @@
 #include "Camera/CameraComponent.h"
 #include "Components/DecalComponent.h"
 #include "Components/InputComponent.h"
+#include "Core/Components/LMAWeaponComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
@@ -41,8 +42,10 @@ ALMADefaultCharacter::ALMADefaultCharacter()
 	bUseControllerRotationYaw = false;
 	bUseControllerRotationRoll = false;
 
-	HealthComponent = CreateDefaultSubobject<ULMAHealthComponent>("HealthComponent");
+	HealthComponent  = CreateDefaultSubobject<ULMAHealthComponent>("HealthComponent");
 	StaminaComponent = CreateDefaultSubobject<ULMAStaminaComponent>("StaminaComponent");
+	WeaponComponent = CreateDefaultSubobject<ULMAWeaponComponent>("WeaponComponent");
+
 
 }
 
@@ -175,7 +178,8 @@ void ALMADefaultCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ALMADefaultCharacter::StartSprint);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ALMADefaultCharacter::StopSprint);
 
-	
+	PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &ULMAWeaponComponent::Fire);
+	PlayerInputComponent->BindAction("Reload", IE_Pressed, WeaponComponent, &ULMAWeaponComponent::Reload);
 
 	PlayerInputComponent->BindAxis("ZoomCamera", this, &ALMADefaultCharacter::ZoomCamera);
 }
