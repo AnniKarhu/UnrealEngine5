@@ -27,7 +27,8 @@ void ALMAHealthPickup::PickupWasTaken()
 void ALMAHealthPickup::RespawnPickup()
 {
     BoxComponent->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Overlap);
-    GetRootComponent()->SetVisibility(true, true);
+    GetRootComponent()->SetVisibility(true, true);  
+
 }
 
 bool ALMAHealthPickup::GivePickup(ALMADefaultCharacter* Character)

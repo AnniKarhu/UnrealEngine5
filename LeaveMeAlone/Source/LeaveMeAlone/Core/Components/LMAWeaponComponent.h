@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-//#include "core/LMABaseWeapon.h"
 #include "LMAWeaponComponent.generated.h"
 
 class ALMABaseWeapon;
@@ -15,12 +14,13 @@ class LEAVEMEALONE_API ULMAWeaponComponent : public UActorComponent
 {
 	GENERATED_BODY()
 
+
 public:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	TSubclassOf<ALMABaseWeapon> WeaponClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
-	FName WeaponSocket;
+	FName WeaponSocket;	
 
 	UPROPERTY()
 	ALMABaseWeapon* Weapon = nullptr;
@@ -30,7 +30,6 @@ protected:
 	UAnimMontage* ReloadMontage;
 
 	bool AnimReloading = false; //анимация перезарядки
-	
 
 public:	
 	// Sets default values for this component's properties
@@ -38,6 +37,7 @@ public:
 	
 	void SpawnWeapon();
 	void Fire();
+	void StopFire();
 
 	//перезарядка
 	void Reload();

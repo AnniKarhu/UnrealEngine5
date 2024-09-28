@@ -12,9 +12,7 @@ ULMAWeaponComponent::ULMAWeaponComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false;
-
-	// ...
+	PrimaryComponentTick.bCanEverTick = false;	
 }
 
 
@@ -24,10 +22,8 @@ void ULMAWeaponComponent::BeginPlay()
 	Super::BeginPlay();
 
 	SpawnWeapon();
-	InitAnimNotify();
-	
+	InitAnimNotify();		
 }
-
 
 void ULMAWeaponComponent::SpawnWeapon() 
 {
@@ -42,18 +38,28 @@ void ULMAWeaponComponent::SpawnWeapon()
 	{
 	    FAttachmentTransformRules AttachmentRules(EAttachmentRule::SnapToTarget, false);
 	    Weapon->AttachToComponent(Character->GetMesh(), AttachmentRules, WeaponSocket);
+
+		Weapon->RunoutOfBulletes.AddUObject(this, &ULMAWeaponComponent::Reload); // подписка на делега, информирующий о закончившихся патронах
 	}
     }
 }
 
 void ULMAWeaponComponent::Fire()
 {
-    if (Weapon && !AnimReloading)
+  //  UE_LOG(WeaponComponentLog, Display, TEXT("fire"));
+	
+	if (Weapon && !AnimReloading)
     {
-	Weapon->Fire();
+	    Weapon->TryBurstFire();
+		Weapon->Fire();	 
     }
 }
 
+void ULMAWeaponComponent::StopFire()
+{	
+//	UE_LOG(WeaponComponentLog, Display, TEXT("stopt fire"));
+    Weapon->ClearBurstFire();
+}
 
 
 void ULMAWeaponComponent::InitAnimNotify()
@@ -70,7 +76,7 @@ void ULMAWeaponComponent::InitAnimNotify()
 			ReloadFinish->OnNotifyReloadFinished.AddUObject(this, &ULMAWeaponComponent::OnNotifyReloadFinished); //подписаться на нужный наш делегат на данное уведомление
 			break;
 		}
-		}
+	}
 }
 
 void ULMAWeaponComponent::OnNotifyReloadFinished(USkeletalMeshComponent* SkeletalMesh) 
@@ -79,26 +85,26 @@ void ULMAWeaponComponent::OnNotifyReloadFinished(USkeletalMeshComponent* Skeleta
     if (Character->GetMesh() == SkeletalMesh)
     {
 		AnimReloading = false;
+		Weapon->FinishReloading();
     }
 }
 
 bool ULMAWeaponComponent::CanReload() const
 {
-    return !AnimReloading;
+    if (Weapon->IsCurrentClipFull())
+	return false;
+	
+	return !AnimReloading;
 }
 
 void ULMAWeaponComponent::Reload()
-{
-   // UE_LOG(WeaponComponentLog, Display, TEXT("enter reload"));
-	
+{ 
 	if (!CanReload())
 	return;
 
-	//UE_LOG(WeaponComponentLog, Display, TEXT("enter reload 2"));
-    Weapon->ChangeClip();
+	Weapon->ChangeClip();
     AnimReloading = true;
     ACharacter* Character = Cast<ACharacter>(GetOwner());
-    //UE_LOG(WeaponComponentLog, Display, TEXT("before play montage"));
     Character->PlayAnimMontage(ReloadMontage);
-   // UE_LOG(WeaponComponentLog, Display, TEXT("after play montage"));
+   
 }

@@ -7,6 +7,8 @@
 #include "LMABaseWeapon.generated.h"
 
 
+DECLARE_MULTICAST_DELEGATE(FRunoutOfBulletes) //патроны закончились
+
 USTRUCT(BlueprintType)
 struct FAmmoWeapon
 {
@@ -32,8 +34,15 @@ public:
 	ALMABaseWeapon();
     void Fire();
 
+	FRunoutOfBulletes RunoutOfBulletes;
+
+
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon")
 	FAmmoWeapon CurrentAmmoWeapon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
+	float BurstFirePause = 0.5f; // паузы между выстрелами
+	
 
 protected:
 	// Called when the game starts or when spawned
@@ -51,11 +60,24 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	FName ShootSocket;
 
+private:
+	bool BurstFire = false;
+    bool WeaponReloaded = true;
+	
+
+public:
+	void ChangeClip();    
+    bool GetBurstFire() const;
+	void ClearBurstFire();
+    void TryBurstFire();
+	void FinishReloading();
+	bool IsCurrentClipFull() const;
+
+protected:
 	void Shoot();
 
 	void DecrementBullets();
 	bool IsCurrentClipEmpty() const;
-
-public:
-	void ChangeClip();
+	
+	
 };

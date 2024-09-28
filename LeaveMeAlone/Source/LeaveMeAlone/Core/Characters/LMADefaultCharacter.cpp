@@ -88,8 +88,7 @@ void ALMADefaultCharacter::MoveForward(float Value)
     else
     {
 		StaminaComponent->IncreaseStamina(StaminaRecoverCost);	
-    }
-    
+    }   
 	
 }
 
@@ -115,16 +114,12 @@ bool ALMADefaultCharacter::CanSprint() const
 void ALMADefaultCharacter::StopSprint()
 {
     IsSprinting = false;
-	GetCharacterMovement()->MaxWalkSpeed = WalkingSpeed;
-
-	//запустить таймер, который каждую секунду будет добавлять по 10 тамина и перезапускать сам себя, если стамина меньше максимальной
-	//таймер нужно отключать при начале спринта
+	GetCharacterMovement()->MaxWalkSpeed = WalkingSpeed;	
 }
 
 void ALMADefaultCharacter::ZoomCamera(float Value)
 {
 	
-	//UE_LOG(LogTemp, Display, TEXT("Value = : %f"), Value);
 	float TempDistance = SpringArm->TargetArmLength + Value* CameraZoomScale;
 
 	if ((TempDistance < CameraMinDistance) || (TempDistance > CameraMaxDistance))
@@ -134,7 +129,6 @@ void ALMADefaultCharacter::ZoomCamera(float Value)
 	
 	SpringArm->TargetArmLength = TempDistance;
 	
-	//UE_LOG(LogTemp, Display, TEXT("TargetArmLength = : %f"), SpringArm->TargetArmLength);
 }
 
 // Called every frame
@@ -178,7 +172,9 @@ void ALMADefaultCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInpu
 	PlayerInputComponent->BindAction("Sprint", IE_Pressed, this, &ALMADefaultCharacter::StartSprint);
 	PlayerInputComponent->BindAction("Sprint", IE_Released, this, &ALMADefaultCharacter::StopSprint);
 
+	//PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &ULMAWeaponComponent::Fire);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, WeaponComponent, &ULMAWeaponComponent::Fire);
+	PlayerInputComponent->BindAction("Fire", IE_Released, WeaponComponent, &ULMAWeaponComponent::StopFire);
 	PlayerInputComponent->BindAction("Reload", IE_Pressed, WeaponComponent, &ULMAWeaponComponent::Reload);
 
 	PlayerInputComponent->BindAxis("ZoomCamera", this, &ALMADefaultCharacter::ZoomCamera);
