@@ -29,7 +29,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Weapon")
 	UAnimMontage* ReloadMontage;
 
-	bool AnimReloading = false; //анимация перезарядки
+	bool AnimReloading = false; //Р°РЅРёРјР°С†РёСЏ РїРµСЂРµР·Р°СЂСЏРґРєРё
 
 public:	
 	// Sets default values for this component's properties
@@ -39,7 +39,7 @@ public:
 	void Fire();
 	void StopFire();
 
-	//перезарядка
+	//РїРµСЂРµР·Р°СЂСЏРґРєР°
 	void Reload();
 	void InitAnimNotify();
 	void OnNotifyReloadFinished(USkeletalMeshComponent* SkeletalMesh);

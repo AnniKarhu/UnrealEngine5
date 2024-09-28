@@ -7,7 +7,7 @@
 #include "LMABaseWeapon.generated.h"
 
 
-DECLARE_MULTICAST_DELEGATE(FRunoutOfBulletes) //патроны закончились
+DECLARE_MULTICAST_DELEGATE(FRunoutOfBulletes) //РїР°С‚СЂРѕРЅС‹ Р·Р°РєРѕРЅС‡РёР»РёСЃСЊ
 
 USTRUCT(BlueprintType)
 struct FAmmoWeapon
@@ -41,7 +41,7 @@ public:
 	FAmmoWeapon CurrentAmmoWeapon;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Weapon")
-	float BurstFirePause = 0.5f; // паузы между выстрелами
+	float BurstFirePause = 0.5f; // РїР°СѓР·С‹ РјРµР¶РґСѓ РІС‹СЃС‚СЂРµР»Р°РјРё
 	
 
 protected:
