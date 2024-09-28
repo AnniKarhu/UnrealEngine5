@@ -91,7 +91,7 @@ void ULMAWeaponComponent::OnNotifyReloadFinished(USkeletalMeshComponent* Skeleta
 
 bool ULMAWeaponComponent::CanReload() const
 {
-    if (Weapon->IsCurrentClipFull() || Weapon->GetBurstFire())
+    if (Weapon->IsCurrentClipFull())
 	return false;
 	
 	return !AnimReloading;

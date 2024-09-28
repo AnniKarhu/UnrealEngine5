@@ -43,7 +43,7 @@ public:
 	void Reload();
 	void InitAnimNotify();
 	void OnNotifyReloadFinished(USkeletalMeshComponent* SkeletalMesh);
-	bool CanReload() const;	
+	bool CanReload() const;
 
 protected:
 	// Called when the game starts

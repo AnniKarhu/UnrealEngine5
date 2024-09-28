@@ -184,8 +184,6 @@ void ALMADefaultCharacter::OnDeath()
 {
     CursorDecal->DestroyRenderState_Concurrent();
 	
-	WeaponComponent->StopFire();
-
 	PlayAnimMontage(DeathMontage);  //проигрывание  анимации монтажа - анимация смерти
     GetCharacterMovement()->DisableMovement(); // запрет движения после смерти
     SetLifeSpan(5.0f); //время,     через которое объект будет уничтожен
