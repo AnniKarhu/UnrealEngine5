@@ -54,7 +54,8 @@ void ALMABaseWeapon::Shoot()
 void ALMABaseWeapon::DecrementBullets() 
 {
     CurrentAmmoWeapon.Bullets--;
-    
+    OnBulletesChanged.Broadcast(CurrentAmmoWeapon.Bullets);
+
     UE_LOG(BaseWeaponLog, Display, TEXT("Bullets = %s"), *FString::FromInt(CurrentAmmoWeapon.Bullets));
 
     if (IsCurrentClipEmpty())
@@ -81,7 +82,7 @@ void ALMABaseWeapon::ChangeClip()
 {
     //if *** есть свободные обоймы
     CurrentAmmoWeapon.Bullets = DefaultAmmoWeapon.Bullets;
-
+    OnBulletesChanged.Broadcast(CurrentAmmoWeapon.Bullets);
     //декремент количества обойм DecrementBullets() 
 }
 

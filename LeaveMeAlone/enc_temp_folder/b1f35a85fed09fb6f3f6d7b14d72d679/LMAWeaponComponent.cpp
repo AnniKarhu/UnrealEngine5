@@ -40,6 +40,7 @@ void ULMAWeaponComponent::SpawnWeapon()
 	    Weapon->AttachToComponent(Character->GetMesh(), AttachmentRules, WeaponSocket);
 
 		Weapon->RunoutOfBulletes.AddUObject(this, &ULMAWeaponComponent::Reload); // подписка на делега, информирующий о закончившихся патронах
+	    Weapon->OnBulletesChanged.AddUObject(this, &ULMAWeaponComponent::BulletsChanged); // подписка на делега, информирующий об изменении количества патронов
 	}
     }
 }
@@ -91,10 +92,15 @@ void ULMAWeaponComponent::OnNotifyReloadFinished(USkeletalMeshComponent* Skeleta
 
 bool ULMAWeaponComponent::CanReload() const
 {
-    if (Weapon->IsCurrentClipFull())
+    if (Weapon->IsCurrentClipFull() || Weapon->GetBurstFire())
 	return false;
 	
 	return !AnimReloading;
+}
+
+void ULMAWeaponComponent::BulletsChanged(int NewBullets) 
+{
+    OnWeaponBulletesChanged.Broadcast(NewBullets);
 }
 
 void ULMAWeaponComponent::Reload()
@@ -107,4 +113,14 @@ void ULMAWeaponComponent::Reload()
     ACharacter* Character = Cast<ACharacter>(GetOwner());
     Character->PlayAnimMontage(ReloadMontage);
    
+}
+
+bool ULMAWeaponComponent::GetCurrentWeaponAmmo(FAmmoWeapon& AmmoWeapon) const
+{
+    if (Weapon)
+    {
+	AmmoWeapon = Weapon->GetCurrentAmmoWeapon();
+	return true;
+    }
+    return false;
 }

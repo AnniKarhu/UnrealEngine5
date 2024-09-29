@@ -8,6 +8,8 @@
 
 
 DECLARE_MULTICAST_DELEGATE(FRunoutOfBulletes) //патроны закончились
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnBulletesChanged, int);
+//DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnBulletesChanged, int, Bullets);
 
 USTRUCT(BlueprintType)
 struct FAmmoWeapon
@@ -36,6 +38,8 @@ public:
 
 	FRunoutOfBulletes RunoutOfBulletes;
 
+	//UPROPERTY(BlueprintAssignable, Category = "Default")
+	FOnBulletesChanged OnBulletesChanged;
 
 	UPROPERTY(BlueprintReadOnly, Category = "Weapon")
 	FAmmoWeapon CurrentAmmoWeapon;
@@ -52,7 +56,7 @@ protected:
 	USkeletalMeshComponent* WeaponComponent;  // WeaponComponent;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
-	FAmmoWeapon DefaultAmmoWeapon{30, 0, true};
+	FAmmoWeapon DefaultAmmoWeapon	{30, 0, true};
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Weapon")
 	float TraceDistance = 800.0f;
@@ -61,17 +65,24 @@ protected:
 	FName ShootSocket;
 
 private:
+	//UPROPERTY(BlueprintReadWrite)
 	bool BurstFire = false;
+
     bool WeaponReloaded = true;
 	
 
 public:
 	void ChangeClip();    
     bool GetBurstFire() const;
+
+	UFUNCTION(BlueprintCallable)
 	void ClearBurstFire();
+
     void TryBurstFire();
 	void FinishReloading();
 	bool IsCurrentClipFull() const;
+
+	FAmmoWeapon GetCurrentAmmoWeapon() const { return CurrentAmmoWeapon; }
 
 protected:
 	void Shoot();

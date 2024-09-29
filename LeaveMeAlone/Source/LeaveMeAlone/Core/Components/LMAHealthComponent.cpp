@@ -20,7 +20,9 @@ void ULMAHealthComponent::BeginPlay()
 	Super::BeginPlay();
 
 	Health = MaxHealth;
-	OnHealthChanged.Broadcast(Health);
+	BroadcastOnHealthChanged();
+	//OnHealthChanged.Broadcast(Health);
+	//OnHealthChangedBP.Broadcast(Health);
 
 	AActor* OwnerComponent = GetOwner();
 	if (OwnerComponent)
@@ -44,7 +46,9 @@ void ULMAHealthComponent::OnTakeAnyDamage(AActor* DamagedActor, float Damage, co
     }
     
 	Health = FMath::Clamp(Health - Damage, 0.0f, MaxHealth);
-    OnHealthChanged.Broadcast(Health);
+    BroadcastOnHealthChanged();
+	//OnHealthChanged.Broadcast(Health);
+	//OnHealthChangedBP.Broadcast(Health);
 
     if (IsDead())
     {
@@ -67,8 +71,16 @@ bool ULMAHealthComponent::AddHealth(float NewHealth)
     if (IsDead() || IsHealthFull())
 	return false;
     Health = FMath::Clamp(Health + NewHealth, 0.0f, MaxHealth);
-    OnHealthChanged.Broadcast(Health);
+    BroadcastOnHealthChanged();
+   // OnHealthChanged.Broadcast(Health);
+   // OnHealthChangedBP.Broadcast(Health);
     return true;
+}
+
+void ULMAHealthComponent::BroadcastOnHealthChanged()
+{
+    OnHealthChanged.Broadcast(Health);
+    OnHealthChangedBP.Broadcast(Health);
 }
 
 

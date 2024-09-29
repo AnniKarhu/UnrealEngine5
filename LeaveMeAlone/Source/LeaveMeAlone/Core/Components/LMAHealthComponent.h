@@ -7,7 +7,9 @@
 #include "LMAHealthComponent.generated.h"
 
 DECLARE_MULTICAST_DELEGATE(FOnDeath)
-DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float)
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnHealthChanged, float) 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnHealthChangedBP, float, NewHealth);
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class LEAVEMEALONE_API ULMAHealthComponent : public UActorComponent
@@ -23,8 +25,15 @@ protected:
     float MaxHealth = 100.0f; //максимальноt здоровья
 
 public:
+  
+	//UPROPERTY(BlueprintAssignable, Category = "Default")
     FOnDeath OnDeath;
+
+	//UPROPERTY(BlueprintAssignable, Category = "Default")
     FOnHealthChanged OnHealthChanged;
+
+	UPROPERTY(BlueprintAssignable, Category = "Default")
+    FOnHealthChangedBP OnHealthChangedBP;
 
 /*Methods*/
 public:	
@@ -52,6 +61,7 @@ private:
     void OnTakeAnyDamage(
 	AActor* DamagedActor, float Damage, const class UDamageType* DamageType, class AController* InstigatedBy, AActor* DamageCauser); // функциz, которая будет вызываться при получении урона
 
+	void BroadcastOnHealthChanged();
 
 		
 };
